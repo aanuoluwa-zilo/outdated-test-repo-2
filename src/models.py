@@ -1,3 +1,6 @@
+import time
+from typing import Dict, Any, List
+
 class User:
     def __init__(self, name, email):
         self.name = name
@@ -49,3 +52,63 @@ class Inventory:
     
     def get_available_quantity(self, product_id):
         return self.items.get(product_id, {}).get('quantity', 0)
+
+# New models added to further simulate outdated state
+class Customer:
+    def __init__(self, id: str, name: str, email: str, phone: str):
+        self.id = id
+        self.name = name
+        self.email = email
+        self.phone = phone
+        self.created_at = time.time()
+    
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            'id': self.id,
+            'name': self.name,
+            'email': self.email,
+            'phone': self.phone,
+            'created_at': self.created_at
+        }
+
+class Payment:
+    def __init__(self, id: str, amount: float, method: str, status: str):
+        self.id = id
+        self.amount = amount
+        self.method = method
+        self.status = status
+        self.processed_at = time.time()
+    
+    def process(self) -> bool:
+        # Simulate payment processing
+        self.status = "completed"
+        return True
+    
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            'id': self.id,
+            'amount': self.amount,
+            'method': self.method,
+            'status': self.status,
+            'processed_at': self.processed_at
+        }
+
+class Shipping:
+    def __init__(self, id: str, address: str, method: str):
+        self.id = id
+        self.address = address
+        self.method = method
+        self.status = "pending"
+    
+    def ship(self) -> bool:
+        # Simulate shipping
+        self.status = "shipped"
+        return True
+    
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            'id': self.id,
+            'address': self.address,
+            'method': self.method,
+            'status': self.status
+        }
